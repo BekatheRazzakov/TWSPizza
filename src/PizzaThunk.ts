@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {axiosApi} from "./axiosApi";
-import {IMeal} from "./type";
+import {IMeal, TMeal} from "./type";
 
 export const fetchList = createAsyncThunk(
   'TWSPizza/fetchList',
@@ -16,4 +16,11 @@ export const fetchList = createAsyncThunk(
 
     return list;
   }
+);
+
+export const addMeal = createAsyncThunk(
+  'TWSPizza/add',
+  async (meal: TMeal) => {
+    await axiosApi.post('/admin/dishes.json', meal);
+  },
 );

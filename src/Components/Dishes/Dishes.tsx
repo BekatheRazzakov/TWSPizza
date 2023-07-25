@@ -16,7 +16,7 @@ const Dishes = () => {
     <div className='container mt-4'>
       <div className='d-flex justify-content-between w-75 m-auto'>
         <h2>Menu</h2>
-        <Link to=''>
+        <Link to='/admin/add-meal'>
           <button className="btn btn-primary">
             Add new dish
           </button>

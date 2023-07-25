@@ -1,10 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchList} from "../PizzaThunk";
+import {addMeal, fetchList} from "../PizzaThunk";
 import {IState} from "../type";
 
 const initialState: IState = {
   mealList: [],
   listLoading: false,
+  addMealLoading: false,
 };
 
 export const PizzaSlice = createSlice({
@@ -21,6 +22,16 @@ export const PizzaSlice = createSlice({
     });
     builder.addCase(fetchList.rejected, state => {
       state.listLoading = false;
+    });
+
+    builder.addCase(addMeal.pending, state => {
+      state.addMealLoading = true;
+    });
+    builder.addCase(addMeal.fulfilled, (state) => {
+      state.addMealLoading = false;
+    });
+    builder.addCase(addMeal.rejected, state => {
+      state.addMealLoading = false;
     });
   },
 });

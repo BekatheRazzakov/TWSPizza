@@ -4,6 +4,7 @@ import AdminPage from "./Containers/AdminPage/AdminPage";
 import './App.css';
 import Dishes from "./Components/Dishes/Dishes";
 import Orders from "./Components/Orders/Orders";
+import AddMeal from "./Components/AddMeal/AddMeal";
 
 const App = () => (
   <div className="App">
@@ -13,7 +14,7 @@ const App = () => (
         <Route path='/admin' element={<AdminPage />}>
           <Route path='meals' element={<Dishes />} />
           <Route path='orders' element={<Orders />} />
-          <Route path='add-meal' element={<h1 />} />
+          <Route path='add-meal' element={<AddMeal />} />
         </Route>
         <Route path='/' element={<h1>Hello, Customer</h1>} />
       </Routes>

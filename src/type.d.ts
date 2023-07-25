@@ -8,4 +8,7 @@ export interface IMeal {
 export interface IState {
   mealList: IMeal[],
   listLoading: boolean,
+  addMealLoading: boolean,
 }
+
+export type TMeal = Omit<IMeal, 'id'>;
