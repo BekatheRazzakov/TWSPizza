@@ -1,0 +1,39 @@
+.list {
+    padding: 10px;
+    border: 1px solid white!important;
+    background: rgba(255, 255, 255, 0.25) !important;
+    max-height: 650px;
+    overflow-y: auto;
+}
+
+.list-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 15px 40px;
+}
+
+.meal-card {
+    display: flex;
+    flex-direction: row!important;
+    align-items: center;
+    justify-content: space-between;
+    height: 170px!important;
+}
+
+.meal-img {
+    position: relative;
+    height: 100%;
+    width: 25%;
+}
+
+.meal-img img {
+    position: absolute;
+    height: 100%;
+}
+
+.info,
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0
+}
