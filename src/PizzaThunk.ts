@@ -24,3 +24,10 @@ export const addMeal = createAsyncThunk(
     await axiosApi.post('/admin/dishes.json', meal);
   },
 );
+
+export const deleteMeal = createAsyncThunk(
+  'TWSPizza/delete',
+  async (id: string) => {
+    await axiosApi.delete(`/admin/dishes/${id}.json`);
+  },
+);

@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useState} from 'react';
-import './addMeal.css';
 import {TMeal} from "../../type";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
 import {addMeal} from "../../PizzaThunk";

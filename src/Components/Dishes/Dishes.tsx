@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hook";
 import {fetchList} from "../../PizzaThunk";
 import './dishes.css';
 import {Link} from "react-router-dom";
+import MealCard from "../MealCard/MealCard";
 
 const Dishes = () => {
   const initState = useAppSelector(state => state.pizzaState);
@@ -36,22 +37,10 @@ const Dishes = () => {
                 <div className='list-inner'>
                   {
                     initState.mealList.map((meal, index) => (
-                      <div
-                        className='card meal-card p-2'
+                      <MealCard
+                        meal={meal}
                         key={index}
-                      >
-                        <div className='meal-img'>
-                          <img src={meal.image} alt="meal"/>
-                        </div>
-                        <div className='info'>
-                          <strong>Name: {meal.title}</strong>
-                          <strong>Price: {meal.price}KGS</strong>
-                        </div>
-                        <div className='buttons'>
-                          <button className="btn btn-primary">Edit</button>
-                          <button className="btn btn-danger">Delete</button>
-                        </div>
-                      </div>
+                      />
                     ))
                   }
                 </div>

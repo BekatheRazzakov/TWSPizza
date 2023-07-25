@@ -1,0 +1,29 @@
+.meal-card {
+    display: flex;
+    flex-direction: row!important;
+    align-items: center;
+    justify-content: space-between;
+    height: 170px!important;
+}
+
+.meal-img {
+    position: relative;
+    height: 100%;
+    width: 25%;
+}
+
+.meal-img img {
+    position: absolute;
+    height: 100%;
+}
+
+.info,
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0
+}
+
+strong {
+    font-size: 20px;
+}
