@@ -28,6 +28,7 @@ export interface IState {
   mealLoading: boolean,
   orderLoading: boolean
   orderListLoading: boolean,
+  orderCompleted: boolean;
 }
 
 export interface IOrderMeal {

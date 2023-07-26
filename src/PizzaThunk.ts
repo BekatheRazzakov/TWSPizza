@@ -85,3 +85,10 @@ export const fetchOrders = createAsyncThunk(
     return list;
   },
 );
+
+export const orderCompleted = createAsyncThunk(
+  'TWSPizza/orderCompleted',
+  async (id: string) => {
+    await axiosApi.delete(`/orders/${id}.json`);
+  },
+);
