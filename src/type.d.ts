@@ -15,6 +15,7 @@ export interface IMealMutation {
 
 export interface IState {
   mealList: IMeal[],
+  ordersList: IFetchOrders[],
   listLoading: boolean,
   addMealLoading: boolean,
   deletingMeal: boolean,
@@ -26,6 +27,7 @@ export interface IState {
   },
   mealLoading: boolean,
   orderLoading: boolean
+  orderListLoading: boolean,
 }
 
 export interface IOrderMeal {
@@ -33,4 +35,9 @@ export interface IOrderMeal {
   price: string,
   image: string,
   amount: number,
+}
+
+export interface IFetchOrders {
+  id: string,
+  orders: IOrderMeal[],
 }

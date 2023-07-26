@@ -1,9 +1,10 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {addMeal, deleteMeal, fetchMeal, fetchList, sendOrder, editMeal} from "../PizzaThunk";
+import {addMeal, deleteMeal, fetchMeal, fetchList, sendOrder, editMeal, fetchOrders} from "../PizzaThunk";
 import {IState} from "../type";
 
 const initialState: IState = {
   mealList: [],
+  ordersList: [],
   listLoading: false,
   addMealLoading: false,
   deletingMeal: false,
@@ -15,6 +16,7 @@ const initialState: IState = {
   },
   mealLoading: false,
   orderLoading: false,
+  orderListLoading: false,
 };
 
 export const PizzaSlice = createSlice({
@@ -86,6 +88,17 @@ export const PizzaSlice = createSlice({
       state.orderLoading = false;
     });
     builder.addCase(sendOrder.rejected, state => {
+      state.orderLoading = false;
+    });
+
+    builder.addCase(fetchOrders.pending, state => {
+      state.orderLoading = true;
+    });
+    builder.addCase(fetchOrders.fulfilled, (state, action) => {
+      state.ordersList = action.payload;
+      state.orderLoading = false;
+    });
+    builder.addCase(fetchOrders.rejected, state => {
       state.orderLoading = false;
     });
   },
