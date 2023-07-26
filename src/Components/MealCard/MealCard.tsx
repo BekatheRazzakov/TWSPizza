@@ -1,19 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {IMeal} from "../../type";
-import {useAppDispatch} from "../../app/hook";
+import {useAppDispatch, useAppSelector} from "../../app/hook";
 import {deleteMeal, fetchList} from "../../PizzaThunk";
 import './mealCard.css';
+import {Link} from "react-router-dom";
 
 interface IProps {
   meal: IMeal,
 }
 
 const MealCard: React.FC<IProps> = ({meal}) => {
+  const [mealID, setMealID] = useState('');
+
   const dispatch = useAppDispatch();
+  const initState = useAppSelector(state => state.pizzaState);
 
   return (
     <div
-      className='card meal-card p-2'
+      className='card meal-card p-2 ps-3 pe-3'
     >
       <div className='meal-img'>
         <img src={meal.image} alt="meal"/>
@@ -23,14 +27,27 @@ const MealCard: React.FC<IProps> = ({meal}) => {
         <strong>{meal.price}KGS</strong>
       </div>
       <div className='buttons'>
-        <button className="btn btn-primary">Edit</button>
+        <Link
+          className="btn btn-primary"
+          to={`/admin/edit-meal/${meal.id}`}
+        >Edit</Link>
         <button
           className="btn btn-danger"
           onClick={async () => {
+            await setMealID(meal.id);
             await dispatch(deleteMeal(meal.id));
             await dispatch(fetchList());
           }}
-        >Delete</button>
+          disabled={initState.deletingMeal && mealID === meal.id}
+        >
+          {
+            initState.deletingMeal && mealID === meal.id ?
+              <div className="justify-content-center spinner-border text-light" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              : 'Delete'
+          }
+        </button>
       </div>
     </div>
   );

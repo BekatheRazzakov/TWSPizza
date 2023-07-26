@@ -5,6 +5,7 @@ import './App.css';
 import Dishes from "./Components/Dishes/Dishes";
 import Orders from "./Components/Orders/Orders";
 import AddMeal from "./Components/AddMeal/AddMeal";
+import CustomerPage from "./Containers/CustomerPage/CustomerPage";
 
 const App = () => (
   <div className="App">
@@ -15,8 +16,9 @@ const App = () => (
           <Route path='meals' element={<Dishes />} />
           <Route path='orders' element={<Orders />} />
           <Route path='add-meal' element={<AddMeal />} />
+          <Route path='edit-meal/:id' element={<AddMeal />} />
         </Route>
-        <Route path='/' element={<h1>Hello, Customer</h1>} />
+        <Route path='/' element={<CustomerPage />} />
       </Routes>
     </div>
   </div>
