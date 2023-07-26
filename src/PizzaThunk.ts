@@ -1,12 +1,12 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {axiosApi} from "./axiosApi";
-import {IMeal} from "./type";
+import {IMeal, IOrderMeal} from "./type";
 
 export const fetchList = createAsyncThunk(
   'TWSPizza/fetchList',
   async () => {
     let list: IMeal[] = [];
-    await axiosApi('/admin/dishes.json')
+    await axiosApi('/dishes.json')
       .then(response => {
         list = Object.keys(response.data).map(pizza => ({
           ...response.data[pizza],
@@ -21,7 +21,18 @@ export const fetchList = createAsyncThunk(
 export const addMeal = createAsyncThunk(
   'TWSPizza/add',
   async (meal: IMeal) => {
-    await axiosApi.put(`/admin/dishes/${meal.id !== '' && meal.id}.json`, {
+    await axiosApi.post(`/dishes/.json`, {
+      title: meal.title,
+      price: meal.price,
+      image: meal.image,
+    });
+  },
+);
+
+export const editMeal = createAsyncThunk(
+  'TWSPizza/edit',
+  async (meal: IMeal) => {
+    await axiosApi.put(`/dishes/${meal.id}.json`, {
       title: meal.title,
       price: meal.price,
       image: meal.image,
@@ -34,7 +45,7 @@ export const fetchMeal = createAsyncThunk(
   async (id: string) => {
     let meal = null;
 
-    await axiosApi(`/admin/dishes/${id}.json`)
+    await axiosApi(`/dishes/${id}.json`)
       .then(response => {
         meal = response.data;
         meal.id = id;
@@ -47,6 +58,13 @@ export const fetchMeal = createAsyncThunk(
 export const deleteMeal = createAsyncThunk(
   'TWSPizza/delete',
   async (id: string) => {
-    await axiosApi.delete(`/admin/dishes/${id}.json`);
+    await axiosApi.delete(`/dishes/${id}.json`);
+  },
+);
+
+export const sendOrder = createAsyncThunk(
+  'TWSPizza/sendOrder',
+  async (order: IOrderMeal[]) => {
+    await axiosApi.post('/orders.json', order);
   },
 );

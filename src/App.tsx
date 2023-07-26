@@ -10,7 +10,7 @@ import CustomerPage from "./Containers/CustomerPage/CustomerPage";
 const App = () => (
   <div className="App">
     <div className='background'></div>
-    <div style={{position: 'relative', zIndex: '2'}}>
+    <div style={{position: 'relative', zIndex: '2', height: '100%'}}>
       <Routes>
         <Route path='/admin' element={<AdminPage />}>
           <Route path='meals' element={<Dishes />} />

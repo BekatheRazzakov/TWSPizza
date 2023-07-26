@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {addMeal, deleteMeal, fetchMeal, fetchList} from "../PizzaThunk";
+import {addMeal, deleteMeal, fetchMeal, fetchList, sendOrder, editMeal} from "../PizzaThunk";
 import {IState} from "../type";
 
 const initialState: IState = {
@@ -14,6 +14,7 @@ const initialState: IState = {
     id: '',
   },
   mealLoading: false,
+  orderLoading: false,
 };
 
 export const PizzaSlice = createSlice({
@@ -42,6 +43,16 @@ export const PizzaSlice = createSlice({
       state.addMealLoading = false;
     });
 
+    builder.addCase(editMeal.pending, state => {
+      state.addMealLoading = true;
+    });
+    builder.addCase(editMeal.fulfilled, state => {
+      state.addMealLoading = false;
+    });
+    builder.addCase(editMeal.rejected, state => {
+      state.addMealLoading = false;
+    });
+
     builder.addCase(fetchMeal.pending, state => {
       state.mealLoading = true;
     });
@@ -60,9 +71,22 @@ export const PizzaSlice = createSlice({
     });
     builder.addCase(deleteMeal.fulfilled, state => {
       state.deletingMeal = false;
+      if (state.mealList.length === 1) {
+        state.mealList = [];
+      }
     });
     builder.addCase(deleteMeal.rejected, state => {
       state.deletingMeal = false;
+    });
+
+    builder.addCase(sendOrder.pending, state => {
+      state.orderLoading = true;
+    });
+    builder.addCase(sendOrder.fulfilled, state => {
+      state.orderLoading = false;
+    });
+    builder.addCase(sendOrder.rejected, state => {
+      state.orderLoading = false;
     });
   },
 });

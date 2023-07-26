@@ -1,0 +1,45 @@
+.checkout {
+    position: absolute!important;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, 0.55) !important;
+}
+
+.checkout-inner {
+    position: relative;
+    width: 600px!important;
+}
+
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.orders {
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.order-title {
+    width: 130px;
+}
+
+.order-price {
+    width: 70px;
+    text-align: center;
+}
+
+.remove-btn {
+    width: 24px;
+    height: 24px;
+    background-image: url("https://cdn-icons-png.flaticon.com/512/1828/1828843.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: transparent;
+    border: 0;
+}

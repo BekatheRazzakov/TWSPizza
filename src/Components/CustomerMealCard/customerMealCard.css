@@ -1,0 +1,16 @@
+.customer-meal-card {
+    width: 180px;
+}
+
+.meal-title {
+    font-size: 22px;
+    text-align: center;
+}
+
+.meal-price {
+    font-size: 15px;
+}
+
+.add-to-cart-btn {
+    font-size: 11px!important;
+}

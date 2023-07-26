@@ -1,0 +1,10 @@
+.customer-page {
+    position: relative;
+    height: 100%;
+}
+
+.customer-meal-list {
+    height: 610px;
+    gap: 15px 0;
+    overflow-y: auto;
+}

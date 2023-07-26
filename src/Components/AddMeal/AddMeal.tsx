@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {IMeal} from "../../type";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {addMeal, fetchMeal} from "../../PizzaThunk";
+import {addMeal, editMeal, fetchMeal} from "../../PizzaThunk";
 import {useNavigate, useParams} from "react-router-dom";
 
 const AddMeal = () => {
@@ -61,7 +61,11 @@ const AddMeal = () => {
             className='w-50 m-auto mt-4 d-flex flex-column gap-3'
             onSubmit={async (e) => {
               await e.preventDefault();
-              await dispatch(addMeal(meal));
+              if (id) {
+                await dispatch(editMeal(meal));
+              } else {
+                await dispatch(addMeal(meal));
+              }
               await navigate('/admin/meals');
             }}
           >
@@ -91,7 +95,11 @@ const AddMeal = () => {
               value={meal.image}
               onChange={onChange}
             />
-            <button className="btn btn-primary" type='submit'>
+            <button
+              className="btn btn-primary"
+              type='submit'
+              disabled={initState.addMealLoading}
+            >
               {
                 initState.addMealLoading ?
                   <div className="spinner-border text-light" role="status">
