@@ -27,7 +27,6 @@ const Orders = () => {
         amount: order[key].toString(),
         id: order.id,
       });
-      console.log(order[key]);
     });
     orders.push(ordersMeals);
   });
