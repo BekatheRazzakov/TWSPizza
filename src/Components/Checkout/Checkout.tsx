@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const Checkout: React.FC<IProps> = ({changeStatus, orders, sum, removeOne, orderClicked}) => {
-  const initState = useAppSelector(state => state.pizzaState);
+  const loading = useAppSelector(state => state.customerState.orderLoading);
 
   return (
     <div className="card checkout d-flex align-items-center p-5">
@@ -49,8 +49,15 @@ const Checkout: React.FC<IProps> = ({changeStatus, orders, sum, removeOne, order
           <button
             className="btn btn-primary"
             onClick={orderClicked}
-            disabled={initState.orderLoading}
-          >Order</button>
+            disabled={loading}
+          >
+            {
+              loading ?
+                <div className="spinner-border text-light m-auto" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div> : 'Order'
+            }
+          </button>
         </div>
       </div>
     </div>

@@ -1,75 +1,88 @@
 import React, {useEffect, useState} from 'react';
-import './orders.css';
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {fetchOrders, orderCompleted} from "../../PizzaThunk";
+import {fetchOrders, orderCompleted} from "../../store/OrdersThunk";
+import './orders.css';
+import {IOrderMeal} from "../../type";
+import {fetchList} from "../../store/PizzaThunk";
 
 const Orders = () => {
-  const [completedOrderID, setCompletedOrderID] = useState<string>('');
+  const [completedOrderID,setCompletedOrderID] = useState('');
   const initState = useAppSelector(state => state.pizzaState);
+  const ordersState = useAppSelector(state => state.ordersState);
   const dispatch = useAppDispatch();
+  const orders: IOrderMeal[][] = [];
 
   useEffect(() => {
     dispatch(fetchOrders());
+    dispatch(fetchList());
   }, [dispatch]);
+  const totals: number[] = [];
+
+  ordersState.ordersList.forEach((order) => {
+    const ordersMeals: IOrderMeal[] = [];
+    Object.keys(order).map((key) => {
+      ordersMeals.push({
+        title: initState.mealList.filter(meal => meal.id === key)[0]?.title,
+        price: initState.mealList.filter(meal => meal.id === key)[0]?.price,
+        amount: order[key].toString(),
+        id: order.id,
+      });
+      console.log(order[key]);
+    });
+    orders.push(ordersMeals);
+  });
+
+  orders.forEach((order) => {
+    let total = 0;
+    order.forEach(meal => {
+      if (parseFloat(meal.price)) {
+        total += parseFloat(meal.price);
+      }
+    });
+    totals.push(total);
+  });
 
   return (
     <div className='container'>
       <h1>Orders</h1>
-      <div className='card orders-block p-2 mt-3 m-auto gap-2'>
+      <div className="orders-list card p-2 gap-3 d-flex m-auto mt-3 w-75">
         {
-          initState.orderListLoading ?
-            <div className='w-100 d-flex justify-content-center'>
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
+          ordersState.orderListLoading ?
+            <div className="justify-content-center spinner-border text-primary m-auto" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
             :
-            initState.ordersList.length === 0 ?
+            ordersState.ordersList.length === 0 ?
               <h2>No active orders yet</h2>
               :
-              initState.ordersList.map((ordersContainer, index) => (
-                <div
-                  className='card p-2 pe-1 d-flex flex-row'
-                  key={index}
-                >
-                  <div className='d-flex flex-column justify-content-center w-75 gap-2'>
+              orders.map((order: IOrderMeal[], index: number) => (
+                <div className='card d-flex flex-row p-2' key={index}>
+                  <div className='d-flex flex-column justify-content-center p-2 gap-1 w-68'>
                     {
-                      ordersContainer.orders.map((order, index) => (
-                        <div
-                          className='d-flex justify-content-between'
-                          key={index}
-                        >
-                          <span className='w-25'>{order.title}</span>
-                          <span className='w-25 text-center'>{order.amount}x</span>
-                          <span className='w-25 text-center me-5'>{order.price}KGS</span>
+                      order.map((meal: IOrderMeal, index: number) => (
+                        meal.title &&
+                        <div className='d-flex align-items-center text-center' key={index}>
+                            <strong className='w-32 f-16'>{meal.title}</strong>
+                            <strong className='w-32 f-16 ms-auto'>{meal.price}KGS</strong>
+                            <span className='w-32'>{meal.amount}x</span>
                         </div>
                       ))
                     }
                   </div>
-                  <div className="w-25 d-flex flex-column justify-content-around">
-                    <div>
-                      <span className='font-13'>Total + deliver: </span>
-                      <strong className='font-12'>
-                        {
-                          ordersContainer.orders.reduce((acc, value) => {
-                            return acc + parseFloat(value.price) * value.amount;
-                          }, 150)
-                        }KGS
-                      </strong>
-                    </div>
-                    <div className='mt-3'>
-                  <button
-                    className='font-15 completed p-0'
-                    onClick={async () => {
-                      await setCompletedOrderID(ordersContainer.id);
-                      await dispatch(orderCompleted(ordersContainer.id));
-                      await dispatch(fetchOrders());
-                    }}
-                    disabled={initState.orderCompleted && ordersContainer.id === completedOrderID}
-                  >
-                    Order completed
-                  </button>
-                    </div>
+                  <div className='w-32 d-flex flex-column align-items-center'>
+                <span className='mt-auto mb-2'>
+                  Total + deliver:
+                  <strong className='f-16'> {totals[index] + 150}KGS</strong>
+                </span>
+                    <button
+                      className='btn btn-success f-12 p-1 ps-2 pe-2 mb-auto'
+                      onClick={async () => {
+                        await setCompletedOrderID(order[0].id);
+                        await dispatch(orderCompleted(order[0].id));
+                        await dispatch(fetchOrders());
+                      }}
+                      disabled={ordersState.orderCompleted && completedOrderID === order[0].id}
+                    >Order completed</button>
                   </div>
                 </div>
               ))

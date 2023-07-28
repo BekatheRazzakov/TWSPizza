@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {fetchList, sendOrder} from "../../PizzaThunk";
+import {fetchList} from "../../store/PizzaThunk";
 import CustomerMealCard from "../../Components/CustomerMealCard/CustomerMealCard";
 import './customerPage.css';
-import {IMealMutation} from "../../type";
+import {ICartMeal, IMealMutation} from "../../type";
 import Checkout from "../../Components/Checkout/Checkout";
+import {sendOrder} from "../../store/CustomerThunk";
 
 const CustomerPage = () => {
   const [orders, setOrders] = useState<IMealMutation[]>([]);
@@ -25,7 +26,7 @@ const CustomerPage = () => {
     const ordersCopy = [...orders];
 
     if (orders.filter(order => order.id === meal.id).length !== 0) {
-      orders.filter(order => order.id === meal.id)[0].amount++
+      orders.filter(order => order.id === meal.id)[0].amount++;
     } else {
       ordersCopy.push(meal);
     }
@@ -54,8 +55,12 @@ const CustomerPage = () => {
   };
 
   const orderClicked = async () => {
-    const idRemoved = orders.map(({ title, price, image, amount }) => ({ title, price, image, amount }));
-    await dispatch(sendOrder(idRemoved));
+    const order: ICartMeal = {};
+    await orders.forEach(meal => {
+      order[meal.id] = meal.amount;
+    });
+
+    await dispatch(sendOrder(order));
     await setOrders([]);
     await setCheckout(false);
   };

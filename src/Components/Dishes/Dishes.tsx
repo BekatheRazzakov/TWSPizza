@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {fetchList} from "../../PizzaThunk";
+import {fetchList} from "../../store/PizzaThunk";
 import './dishes.css';
 import {Link} from "react-router-dom";
 import MealCard from "../MealCard/MealCard";

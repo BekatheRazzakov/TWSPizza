@@ -1,39 +1,34 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {IMeal} from "../../type";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {addMeal, editMeal, fetchMeal} from "../../PizzaThunk";
+import {addMeal, editMeal, fetchMeal} from "../../store/PizzaThunk";
 import {useNavigate, useParams} from "react-router-dom";
 
 const AddMeal = () => {
   const {id} = useParams() as {id: string};
 
-  const [meal, setMeal] = useState<IMeal>({
-    title: '',
-    price: '',
-    image: '',
-    id: '',
-  });
-
   const dispatch = useAppDispatch();
   const initState = useAppSelector(state => state.pizzaState);
   const navigate = useNavigate();
 
-  const setValues = async () => {
-    await dispatch(fetchMeal(id));
-    await setMeal(prevState => ({
-      ...prevState,
-      title: initState.meal.title,
-      price: initState.meal.price,
-      image: initState.meal.image,
-      id: initState.meal.id,
-    }));
-  };
+  const [meal, setMeal] = useState<IMeal>(initState.meal);
+
+  useEffect(() => {
+    void dispatch(fetchMeal(id));
+  }, [id]);
 
   useEffect(() => {
     if (id) {
-      void setValues();
+      setMeal(initState.meal);
+    } else {
+      setMeal({
+        title: '',
+        price: '',
+        image: '',
+        id: '',
+      })
     }
-  }, [meal.id]);
+  },[initState.meal]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;

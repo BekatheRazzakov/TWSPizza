@@ -4,16 +4,12 @@ import {
   deleteMeal,
   fetchMeal,
   fetchList,
-  sendOrder,
   editMeal,
-  fetchOrders,
-  orderCompleted
-} from "../PizzaThunk";
-import {IState} from "../type";
+} from "./PizzaThunk";
+import {IDishesState} from "../type";
 
-const initialState: IState = {
+const initialState: IDishesState = {
   mealList: [],
-  ordersList: [],
   listLoading: false,
   addMealLoading: false,
   deletingMeal: false,
@@ -24,9 +20,6 @@ const initialState: IState = {
     id: '',
   },
   mealLoading: false,
-  orderLoading: false,
-  orderListLoading: false,
-  orderCompleted: false,
 };
 
 export const PizzaSlice = createSlice({
@@ -90,42 +83,7 @@ export const PizzaSlice = createSlice({
     builder.addCase(deleteMeal.rejected, state => {
       state.deletingMeal = false;
     });
-
-    builder.addCase(sendOrder.pending, state => {
-      state.orderLoading = true;
-    });
-    builder.addCase(sendOrder.fulfilled, state => {
-      state.orderLoading = false;
-    });
-    builder.addCase(sendOrder.rejected, state => {
-      state.orderLoading = false;
-    });
-
-    builder.addCase(fetchOrders.pending, state => {
-      state.orderListLoading = true;
-    });
-    builder.addCase(fetchOrders.fulfilled, (state, action) => {
-      state.ordersList = action.payload;
-      state.orderListLoading = false;
-    });
-    builder.addCase(fetchOrders.rejected, state => {
-      state.orderListLoading = false;
-    });
-
-    builder.addCase(orderCompleted.pending, state => {
-      state.orderCompleted = true;
-    });
-    builder.addCase(orderCompleted.fulfilled, state => {
-      state.orderCompleted = false;
-      if (state.ordersList.length === 1) {
-        state.ordersList = [];
-      }
-    });
-    builder.addCase(orderCompleted.rejected, state => {
-      state.orderCompleted = false;
-    });
   },
 });
 
 export const PizzaReducer = PizzaSlice.reducer;
-export const {} = PizzaSlice.actions;

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {IMeal} from "../../type";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {deleteMeal, fetchList} from "../../PizzaThunk";
+import {deleteMeal, fetchList} from "../../store/PizzaThunk";
 import './mealCard.css';
 import {Link} from "react-router-dom";
 
